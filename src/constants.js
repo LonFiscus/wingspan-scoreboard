@@ -62,11 +62,11 @@ export const BHL_IMAGES = [
 ]
 
 export const PLAYER_COLORS = [
-  '#2d5a27',
-  '#8b3a3a',
-  '#1a4a6b',
-  '#7a4a00',
-  '#4a2d6b',
+  '#f7e98e', // pastel yellow
+  '#ffadbc', // pastel pink
+  '#a8d8f0', // pastel blue
+  '#ffc896', // pastel peach
+  '#c8a8f0', // pastel lavender
 ]
 
 export function getTotal(score) {
