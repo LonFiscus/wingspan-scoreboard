@@ -1,0 +1,636 @@
+/* ============================================================
+   WINGSPAN SCOREBOARD — Global Styles
+   Fonts loaded via index.html
+   ============================================================ */
+
+:root {
+  --green:        #2d5a27;
+  --green-dark:   #1e3d1a;
+  --green-light:  #4a8040;
+  --cream:        #f5edd6;
+  --cream-dark:   #e0d4b5;
+  --brown:        #7a4f2e;
+  --brown-light:  #a06d40;
+  --gold:         #c9a84c;
+  --gold-light:   #e0c878;
+  --text:         #2c1810;
+  --text-muted:   #6b4a30;
+  --white:        #fdfaf4;
+  --danger:       #b83232;
+  --shadow:       rgba(44, 24, 16, 0.18);
+  --radius:       10px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: 'Lato', system-ui, sans-serif;
+  background-color: var(--cream);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  max-width: 780px;
+  margin: 0 auto;
+  background: var(--white);
+  box-shadow: 0 0 40px var(--shadow);
+}
+
+/* ============================================================
+   HERO BANNER
+   ============================================================ */
+
+.hero {
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.hero-tall {
+  height: 280px;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(30, 61, 26, 0.55) 0%,
+    rgba(30, 61, 26, 0.88) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px;
+  text-align: center;
+  gap: 6px;
+}
+
+.score-header {
+  height: 130px;
+  background-size: cover;
+  background-position: center 35%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.score-header-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(30, 61, 26, 0.90) 0%,
+    rgba(30, 61, 26, 0.60) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 28px;
+  gap: 4px;
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+
+.app-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 0.1em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+  line-height: 1;
+}
+
+.app-subtitle {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: var(--cream);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.winner-announce {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  margin-top: 4px;
+}
+
+.screen-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--green);
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 8px;
+}
+
+/* ============================================================
+   SCREEN BODY
+   ============================================================ */
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.screen-body {
+  flex: 1;
+  padding: 24px 20px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* ============================================================
+   SETUP SCREEN — PLAYER LIST
+   ============================================================ */
+
+.player-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.player-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  border: 1px solid var(--cream-dark);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  box-shadow: 0 1px 5px var(--shadow);
+  transition: box-shadow 0.2s;
+}
+
+.player-row:focus-within {
+  box-shadow: 0 2px 10px var(--shadow), 0 0 0 2px rgba(45, 90, 39, 0.25);
+}
+
+.player-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  color: var(--gold);
+  width: 22px;
+  flex-shrink: 0;
+  text-align: center;
+  font-weight: 700;
+}
+
+.player-name-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  color: var(--text);
+  background: transparent;
+  padding: 2px 0;
+  border-bottom: 1.5px solid transparent;
+  transition: border-color 0.2s;
+  min-width: 0;
+}
+
+.player-name-input:focus {
+  border-bottom-color: var(--green);
+}
+
+.player-name-input::placeholder {
+  color: var(--cream-dark);
+}
+
+.player-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--cream-dark);
+  border-radius: 6px;
+  background: var(--cream);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+
+.icon-btn:hover:not(:disabled) {
+  background: var(--green);
+  color: white;
+  border-color: var(--green);
+}
+
+.icon-btn:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+}
+
+.icon-btn.danger:hover:not(:disabled) {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: white;
+}
+
+.add-player-btn {
+  align-self: flex-start;
+  background: transparent;
+  border: 2px dashed var(--brown-light);
+  color: var(--brown-light);
+  border-radius: var(--radius);
+  padding: 9px 18px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.add-player-btn:hover {
+  background: var(--brown-light);
+  color: var(--white);
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.primary-btn {
+  background: var(--green);
+  color: var(--cream);
+  border: none;
+  border-radius: var(--radius);
+  padding: 14px 28px;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  box-shadow: 0 3px 10px var(--shadow);
+  letter-spacing: 0.03em;
+}
+
+.primary-btn:hover:not(:disabled) {
+  background: var(--green-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px var(--shadow);
+}
+
+.primary-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.primary-btn:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.secondary-btn {
+  background: transparent;
+  color: var(--brown);
+  border: 2px solid var(--brown-light);
+  border-radius: var(--radius);
+  padding: 12px 24px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.secondary-btn:hover {
+  background: var(--brown-light);
+  color: var(--white);
+}
+
+.danger-btn {
+  background: var(--danger);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  padding: 10px 18px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.danger-btn:hover {
+  background: #942727;
+}
+
+/* ============================================================
+   SCORE TABLE
+   ============================================================ */
+
+.table-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 14px var(--shadow);
+}
+
+.scroll-hint {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-align: right;
+  font-style: italic;
+}
+
+.score-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  min-width: 340px;
+}
+
+/* Header row */
+.score-table thead th {
+  background: var(--green);
+  color: var(--cream);
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 12px 10px;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.cat-col {
+  text-align: left !important;
+  min-width: 155px;
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}
+
+.player-col {
+  min-width: 76px;
+  color: var(--player-color, var(--cream)) !important;
+}
+
+/* Winner column header */
+.player-col.winner-col {
+  background: var(--gold) !important;
+  color: var(--green-dark) !important;
+}
+
+/* Alternating body rows */
+.score-table tbody tr:nth-child(odd) {
+  background: var(--white);
+}
+
+.score-table tbody tr:nth-child(even) {
+  background: var(--cream);
+}
+
+/* Sticky first column in body */
+.cat-cell {
+  padding: 10px 12px;
+  position: sticky;
+  left: 0;
+  border-right: 2px solid var(--cream-dark);
+  z-index: 1;
+  vertical-align: top;
+}
+
+.score-table tbody tr:nth-child(odd) .cat-cell {
+  background: var(--white);
+}
+
+.score-table tbody tr:nth-child(even) .cat-cell {
+  background: var(--cream);
+}
+
+.cat-label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.83rem;
+  color: var(--text);
+}
+
+.cat-desc {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+.score-cell {
+  padding: 8px 6px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Number inputs */
+.score-input {
+  width: 58px;
+  text-align: center;
+  border: 1px solid var(--cream-dark);
+  border-radius: 7px;
+  padding: 7px 4px;
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  background: var(--cream);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  /* Hide browser spinners */
+  -moz-appearance: textfield;
+}
+
+.score-input::-webkit-inner-spin-button,
+.score-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.score-input:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 2px rgba(45, 90, 39, 0.22);
+  background: var(--white);
+}
+
+/* Total row */
+.score-table tfoot .total-row {
+  border-top: 3px solid var(--gold);
+}
+
+.score-table tfoot .cat-cell {
+  background: var(--cream) !important;
+}
+
+.total-label {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 0.95rem !important;
+  color: var(--green) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.total-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--green);
+}
+
+/* ============================================================
+   RESULTS TABLE OVERRIDES
+   ============================================================ */
+
+.winner-cell {
+  background-color: rgba(201, 168, 76, 0.12) !important;
+}
+
+.winner-total {
+  color: var(--green-dark) !important;
+  font-size: 1.35rem !important;
+}
+
+.winner-star {
+  color: var(--gold-light);
+  margin-left: 3px;
+}
+
+/* ============================================================
+   ACTION AREAS
+   ============================================================ */
+
+.action-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.confirm-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fdf0ef;
+  border: 1px solid #e0a0a0;
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  flex-wrap: wrap;
+}
+
+.confirm-bar span {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--text);
+  min-width: 120px;
+}
+
+.results-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.results-actions .primary-btn,
+.results-actions .secondary-btn {
+  flex: 1;
+  min-width: 130px;
+  text-align: center;
+}
+
+/* ============================================================
+   IMAGE CREDIT
+   ============================================================ */
+
+.image-credit {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-align: center;
+  font-style: italic;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 480px) {
+  .app-title {
+    font-size: 2.2rem;
+  }
+
+  .hero {
+    height: 185px;
+  }
+
+  .hero-tall {
+    height: 230px;
+  }
+
+  .winner-announce {
+    font-size: 1.25rem;
+  }
+
+  .score-header {
+    height: 110px;
+  }
+
+  .score-input {
+    width: 50px;
+    font-size: 0.9rem;
+    padding: 6px 2px;
+  }
+
+  .cat-desc {
+    display: none;
+  }
+
+  .cat-col {
+    min-width: 120px;
+  }
+
+  .player-col {
+    min-width: 60px;
+  }
+
+  .screen-body {
+    padding: 18px 14px 28px;
+    gap: 18px;
+  }
+}
