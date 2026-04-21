@@ -32,32 +32,32 @@ export const CATEGORIES = [
 ]
 
 // All images are public domain from the Biodiversity Heritage Library (BHL)
-// via their Flickr account: flickr.com/photos/biodivlibrary
+// Audubon's "The Birds of America" (1840–1844), via flickr.com/photos/biodivlibrary
 export const BHL_IMAGES = [
   {
-    url: 'https://live.staticflickr.com/65535/51280846796_53a7f660b8_b.jpg',
-    credit: 'Ornithologie (1760) — Biodiversity Heritage Library',
-    alt: 'Historical bird illustration from Ornithologie by Brisson, 1760',
+    url: 'https://live.staticflickr.com/8230/8589018703_4a7d46f8cd_b.jpg',
+    credit: 'The Birds of America, Audubon (1840–1844) — Biodiversity Heritage Library',
+    alt: 'Audubon bird illustration from The Birds of America, 1840–1844',
   },
   {
-    url: 'https://live.staticflickr.com/65535/51281869040_3afd424223_b.jpg',
-    credit: 'Ornithologie (1760) — Biodiversity Heritage Library',
-    alt: 'Historical bird illustration from Ornithologie by Brisson, 1760',
+    url: 'https://live.staticflickr.com/8383/8595323676_c41b32d587_b.jpg',
+    credit: 'The Birds of America, Audubon (1840–1844) — Biodiversity Heritage Library',
+    alt: 'Audubon bird illustration from The Birds of America, 1840–1844',
   },
   {
-    url: 'https://live.staticflickr.com/65535/51281576969_2a32026c1c_b.jpg',
-    credit: 'Ornithologie (1760) — Biodiversity Heritage Library',
-    alt: 'Historical bird illustration from Ornithologie by Brisson, 1760',
+    url: 'https://live.staticflickr.com/8380/8592728880_25b487f900_b.jpg',
+    credit: 'The Birds of America, Audubon (1840–1844) — Biodiversity Heritage Library',
+    alt: 'Audubon bird illustration from The Birds of America, 1840–1844',
   },
   {
-    url: 'https://live.staticflickr.com/5587/15290066602_bfca4b298c_b.jpg',
-    credit: 'A Monograph of the Paradiseidae (1873) — Biodiversity Heritage Library',
-    alt: 'Birds of paradise illustration from Elliot\'s Monograph, 1873',
+    url: 'https://live.staticflickr.com/8100/8567751041_92163ac71b_b.jpg',
+    credit: 'The Birds of America, Audubon (1840–1844) — Biodiversity Heritage Library',
+    alt: 'Audubon bird illustration from The Birds of America, 1840–1844',
   },
   {
-    url: 'https://live.staticflickr.com/6049/6298081971_48dce45fc2_b.jpg',
-    credit: 'Historical bird illustration — Biodiversity Heritage Library',
-    alt: 'Historical bird illustration from the Biodiversity Heritage Library',
+    url: 'https://live.staticflickr.com/8236/8590182472_f8d4c7a0ec_b.jpg',
+    credit: 'The Birds of America, Audubon (1840–1844) — Biodiversity Heritage Library',
+    alt: 'Audubon bird illustration from The Birds of America, 1840–1844',
   },
 ]
 
