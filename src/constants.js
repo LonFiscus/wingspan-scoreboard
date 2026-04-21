@@ -15,32 +15,33 @@ export const FINAL_CATEGORIES = [
 ]
 
 // All images are public domain from the Biodiversity Heritage Library (BHL)
-// Audubon's "The Birds of America" (1840–1844), via flickr.com/photos/biodivlibrary
+// Lilford's "Coloured Figures of the Birds of the British Islands" (1885–1897)
+// via flickr.com/photos/biodivlibrary — single-bird watercolor portraits
 export const BHL_IMAGES = [
   {
-    url: 'https://live.staticflickr.com/8230/8589018703_4a7d46f8cd_b.jpg',
-    credit: 'The Birds of America, Audubon (1840–1844) — Biodiversity Heritage Library',
-    alt: 'Audubon bird illustration from The Birds of America, 1840–1844',
+    url: 'https://live.staticflickr.com/8077/8290248423_30fd526bf9_b.jpg',
+    credit: 'Coloured Figures of the Birds of the British Islands, Lilford (1885–1897) — Biodiversity Heritage Library',
+    alt: 'Watercolor bird portrait from Lilford\'s Coloured Figures, 1885–1897',
   },
   {
-    url: 'https://live.staticflickr.com/8383/8595323676_c41b32d587_b.jpg',
-    credit: 'The Birds of America, Audubon (1840–1844) — Biodiversity Heritage Library',
-    alt: 'Audubon bird illustration from The Birds of America, 1840–1844',
+    url: 'https://live.staticflickr.com/8353/8291308364_e270dd8c4b_b.jpg',
+    credit: 'Coloured Figures of the Birds of the British Islands, Lilford (1885–1897) — Biodiversity Heritage Library',
+    alt: 'Watercolor bird portrait from Lilford\'s Coloured Figures, 1885–1897',
   },
   {
-    url: 'https://live.staticflickr.com/8380/8592728880_25b487f900_b.jpg',
-    credit: 'The Birds of America, Audubon (1840–1844) — Biodiversity Heritage Library',
-    alt: 'Audubon bird illustration from The Birds of America, 1840–1844',
+    url: 'https://live.staticflickr.com/8081/8291317400_696a6e40e3_b.jpg',
+    credit: 'Coloured Figures of the Birds of the British Islands, Lilford (1885–1897) — Biodiversity Heritage Library',
+    alt: 'Watercolor bird portrait from Lilford\'s Coloured Figures, 1885–1897',
   },
   {
-    url: 'https://live.staticflickr.com/8100/8567751041_92163ac71b_b.jpg',
-    credit: 'The Birds of America, Audubon (1840–1844) — Biodiversity Heritage Library',
-    alt: 'Audubon bird illustration from The Birds of America, 1840–1844',
+    url: 'https://live.staticflickr.com/8079/8290249459_33a092c2ac_b.jpg',
+    credit: 'Coloured Figures of the Birds of the British Islands, Lilford (1885–1897) — Biodiversity Heritage Library',
+    alt: 'Watercolor bird portrait from Lilford\'s Coloured Figures, 1885–1897',
   },
   {
-    url: 'https://live.staticflickr.com/8236/8590182472_f8d4c7a0ec_b.jpg',
-    credit: 'The Birds of America, Audubon (1840–1844) — Biodiversity Heritage Library',
-    alt: 'Audubon bird illustration from The Birds of America, 1840–1844',
+    url: 'https://live.staticflickr.com/401/19678278933_b48f24888c_b.jpg',
+    credit: 'Coloured Figures of the Birds of the British Islands, Lilford (1885–1897) — Biodiversity Heritage Library',
+    alt: 'Watercolor bird portrait from Lilford\'s Coloured Figures, 1885–1897',
   },
 ]
 
