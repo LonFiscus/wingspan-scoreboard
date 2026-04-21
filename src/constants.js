@@ -1,34 +1,17 @@
-export const CATEGORIES = [
-  {
-    key: 'birds',
-    label: 'Birds Played',
-    description: 'Sum of points on played bird cards',
-  },
-  {
-    key: 'bonusCards',
-    label: 'Bonus Cards',
-    description: 'Points from personal bonus card objectives',
-  },
-  {
-    key: 'endOfRound',
-    label: 'End-of-Round Goals',
-    description: 'Cumulative points from the 4 round-end goal tiles',
-  },
-  {
-    key: 'eggs',
-    label: 'Eggs',
-    description: '1 point per egg on cards at game end',
-  },
-  {
-    key: 'food',
-    label: 'Food on Cards',
-    description: '1 point per food token cached on cards',
-  },
-  {
-    key: 'tucked',
-    label: 'Tucked Cards',
-    description: '1 point per card tucked under birds',
-  },
+// Categories entered per round (end-of-round goal tile)
+export const ROUND_CATEGORY = {
+  key: 'endOfRound',
+  label: 'End-of-Round Goal',
+  description: 'Points scored on this round\'s goal tile',
+}
+
+// Categories entered once at game end
+export const FINAL_CATEGORIES = [
+  { key: 'birds',     label: 'Birds Played',  description: 'Sum of points on played bird cards' },
+  { key: 'bonusCards',label: 'Bonus Cards',   description: 'Points from personal bonus card objectives' },
+  { key: 'eggs',      label: 'Eggs',          description: '1 point per egg on cards at game end' },
+  { key: 'food',      label: 'Food on Cards', description: '1 point per food token cached on cards' },
+  { key: 'tucked',    label: 'Tucked Cards',  description: '1 point per card tucked under birds' },
 ]
 
 // All images are public domain from the Biodiversity Heritage Library (BHL)
@@ -69,11 +52,32 @@ export const PLAYER_COLORS = [
   '#c8a8f0', // pastel lavender
 ]
 
-export function getTotal(score) {
+export function getRoundsTotal(score) {
+  if (!score?.rounds) return 0
+  return score.rounds.reduce((sum, r) => sum + (parseInt(r.endOfRound) || 0), 0)
+}
+
+export function getFinalTotal(score) {
   if (!score) return 0
-  return CATEGORIES.reduce((sum, cat) => sum + (parseInt(score[cat.key]) || 0), 0)
+  return FINAL_CATEGORIES.reduce((sum, cat) => sum + (parseInt(score[cat.key]) || 0), 0)
+}
+
+export function getTotal(score) {
+  return getRoundsTotal(score) + getFinalTotal(score)
 }
 
 export function makeEmptyScore() {
-  return CATEGORIES.reduce((acc, cat) => ({ ...acc, [cat.key]: 0 }), {})
+  return {
+    rounds: [
+      { endOfRound: 0 },
+      { endOfRound: 0 },
+      { endOfRound: 0 },
+      { endOfRound: 0 },
+    ],
+    birds: 0,
+    bonusCards: 0,
+    eggs: 0,
+    food: 0,
+    tucked: 0,
+  }
 }

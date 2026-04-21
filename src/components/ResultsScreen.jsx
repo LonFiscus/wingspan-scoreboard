@@ -1,13 +1,13 @@
-import { CATEGORIES, BHL_IMAGES, PLAYER_COLORS, getTotal } from '../constants'
+import { FINAL_CATEGORIES, BHL_IMAGES, PLAYER_COLORS, getRoundsTotal, getTotal } from '../constants'
 
 export default function ResultsScreen({ players, scores, onPlayAgain, onNewGame }) {
   const totals = players.map(p => ({ ...p, total: getTotal(scores[p.id]) }))
   const maxTotal = Math.max(...totals.map(p => p.total))
-  const winners = totals.filter(p => p.total === maxTotal)
-  const isWinner = id => winners.some(w => w.id === id)
+  const isWinner = id => totals.find(p => p.id === id)?.total === maxTotal
 
   const hero = BHL_IMAGES[3]
 
+  const winners = totals.filter(p => p.total === maxTotal)
   const winnerText = winners.length === 1
     ? `${winners[0].name} wins!`
     : `Tie \u2014 ${winners.map(w => w.name).join(' & ')}`
@@ -42,8 +42,42 @@ export default function ResultsScreen({ players, scores, onPlayAgain, onNewGame 
                   ))}
                 </tr>
               </thead>
+
               <tbody>
-                {CATEGORIES.map(cat => (
+                {/* Per-round goal rows */}
+                {[0, 1, 2, 3].map(i => (
+                  <tr key={`round-${i}`}>
+                    <td className="cat-cell">
+                      <span className="cat-label">Round {i + 1} Goal</span>
+                    </td>
+                    {players.map(p => (
+                      <td
+                        key={p.id}
+                        className={`score-cell${isWinner(p.id) ? ' winner-cell' : ''}`}
+                      >
+                        {scores[p.id]?.rounds[i]?.endOfRound ?? 0}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+
+                {/* Round goals subtotal */}
+                <tr className="subtotal-row">
+                  <td className="cat-cell">
+                    <span className="cat-label">Round Goals Total</span>
+                  </td>
+                  {players.map(p => (
+                    <td
+                      key={p.id}
+                      className={`score-cell subtotal-value${isWinner(p.id) ? ' winner-cell' : ''}`}
+                    >
+                      {getRoundsTotal(scores[p.id])}
+                    </td>
+                  ))}
+                </tr>
+
+                {/* Final scoring categories */}
+                {FINAL_CATEGORIES.map(cat => (
                   <tr key={cat.key}>
                     <td className="cat-cell">
                       <span className="cat-label">{cat.label}</span>
@@ -59,10 +93,11 @@ export default function ResultsScreen({ players, scores, onPlayAgain, onNewGame 
                   </tr>
                 ))}
               </tbody>
+
               <tfoot>
                 <tr className="total-row">
                   <td className="cat-cell">
-                    <span className="cat-label total-label">Total</span>
+                    <span className="cat-label total-label">Grand Total</span>
                   </td>
                   {totals.map(p => (
                     <td
