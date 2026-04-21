@@ -1,17 +1,14 @@
-// Categories entered per round (end-of-round goal tile)
-export const ROUND_CATEGORY = {
-  key: 'endOfRound',
-  label: 'End-of-Round Goal',
-  description: 'Points scored on this round\'s goal tile',
-}
-
-// Categories entered once at game end
-export const FINAL_CATEGORIES = [
-  { key: 'birds',     label: 'Birds Played',  description: 'Sum of points on played bird cards' },
-  { key: 'bonusCards',label: 'Bonus Cards',   description: 'Points from personal bonus card objectives' },
-  { key: 'eggs',      label: 'Eggs',          description: '1 point per egg on cards at game end' },
-  { key: 'food',      label: 'Food on Cards', description: '1 point per food token cached on cards' },
-  { key: 'tucked',    label: 'Tucked Cards',  description: '1 point per card tucked under birds' },
+// All 6 categories appear on every round's scorecard.
+// Birds, Bonus Cards, Eggs, Food, and Tucked are cumulative running totals
+// (updated each round as the game progresses). End-of-Round Goal is a fresh
+// score each round and all four values are summed at game end.
+export const ROUND_CATEGORIES = [
+  { key: 'birds',      label: 'Birds Played',      cumulative: true,  description: 'Running total of points on played bird cards' },
+  { key: 'bonusCards', label: 'Bonus Cards',        cumulative: true,  description: 'Running total of bonus card points' },
+  { key: 'endOfRound', label: 'End-of-Round Goal',  cumulative: false, description: 'Points scored on this round\'s goal tile only' },
+  { key: 'eggs',       label: 'Eggs',               cumulative: true,  description: 'Running total — 1 pt per egg on cards' },
+  { key: 'food',       label: 'Food on Cards',      cumulative: true,  description: 'Running total — 1 pt per food token cached' },
+  { key: 'tucked',     label: 'Tucked Cards',       cumulative: true,  description: 'Running total — 1 pt per card tucked under a bird' },
 ]
 
 // All images are public domain from the Biodiversity Heritage Library (BHL)
@@ -52,32 +49,33 @@ export const PLAYER_COLORS = [
   '#c8a8f0', // pastel lavender
 ]
 
-export function getRoundsTotal(score) {
+function num(v) { return parseInt(v) || 0 }
+
+// Running total after a given round index (0–3).
+// Cumulative categories use that round's value; end-of-round goals are summed.
+export function getRunningTotal(score, roundIndex) {
   if (!score?.rounds) return 0
-  return score.rounds.reduce((sum, r) => sum + (parseInt(r.endOfRound) || 0), 0)
+  const r = score.rounds[roundIndex]
+  if (!r) return 0
+  const goalSum = score.rounds
+    .slice(0, roundIndex + 1)
+    .reduce((s, rnd) => s + num(rnd.endOfRound), 0)
+  return num(r.birds) + num(r.bonusCards) + goalSum + num(r.eggs) + num(r.food) + num(r.tucked)
 }
 
-export function getFinalTotal(score) {
-  if (!score) return 0
-  return FINAL_CATEGORIES.reduce((sum, cat) => sum + (parseInt(score[cat.key]) || 0), 0)
-}
-
+// Final score = running total after round 4 (index 3)
 export function getTotal(score) {
-  return getRoundsTotal(score) + getFinalTotal(score)
+  return getRunningTotal(score, 3)
 }
 
 export function makeEmptyScore() {
+  const emptyRound = { birds: 0, bonusCards: 0, endOfRound: 0, eggs: 0, food: 0, tucked: 0 }
   return {
     rounds: [
-      { endOfRound: 0 },
-      { endOfRound: 0 },
-      { endOfRound: 0 },
-      { endOfRound: 0 },
+      { ...emptyRound },
+      { ...emptyRound },
+      { ...emptyRound },
+      { ...emptyRound },
     ],
-    birds: 0,
-    bonusCards: 0,
-    eggs: 0,
-    food: 0,
-    tucked: 0,
   }
 }

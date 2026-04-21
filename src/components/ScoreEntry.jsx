@@ -1,60 +1,58 @@
 import { useState } from 'react'
-import {
-  ROUND_CATEGORY,
-  FINAL_CATEGORIES,
-  BHL_IMAGES,
-  PLAYER_COLORS,
-  getRoundsTotal,
-  getTotal,
-} from '../constants'
+import { ROUND_CATEGORIES, BHL_IMAGES, PLAYER_COLORS, getRunningTotal } from '../constants'
 
 const NUM_ROUNDS = 4
 
 export default function ScoreEntry({ players, scores, onScoreChange, onEndGame, onNewGame }) {
-  // steps 0–3 = round 1–4, step 4 = final scores
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState(0) // 0–3 = rounds 1–4
   const [showConfirm, setShowConfirm] = useState(false)
 
-  const isRoundStep = step < NUM_ROUNDS
-  const roundIndex = step
   const hero = BHL_IMAGES[Math.min(step, BHL_IMAGES.length - 1)]
+  const isFinalRound = step === NUM_ROUNDS - 1
 
-  const stepLabel = isRoundStep
-    ? `Round ${step + 1} of ${NUM_ROUNDS}`
-    : 'Final Scores'
-
-  function handleRoundInput(playerId, value) {
+  function handleInput(playerId, catKey, value) {
     const num = Math.max(0, parseInt(value) || 0)
     onScoreChange(prev => ({
       ...prev,
       [playerId]: {
         ...prev[playerId],
         rounds: prev[playerId].rounds.map((r, i) =>
-          i === roundIndex ? { endOfRound: num } : r
+          i === step ? { ...r, [catKey]: num } : r
         ),
       },
     }))
   }
 
-  function handleFinalInput(playerId, catKey, value) {
-    const num = Math.max(0, parseInt(value) || 0)
-    onScoreChange(prev => ({
-      ...prev,
-      [playerId]: { ...prev[playerId], [catKey]: num },
-    }))
+  function handleNext() {
+    // Pre-fill next round's cumulative fields from this round
+    onScoreChange(prev => {
+      const updated = { ...prev }
+      players.forEach(p => {
+        const curr = prev[p.id].rounds[step]
+        updated[p.id] = {
+          ...prev[p.id],
+          rounds: prev[p.id].rounds.map((r, i) =>
+            i === step + 1
+              ? {
+                  ...r,
+                  birds:      curr.birds,
+                  bonusCards: curr.bonusCards,
+                  eggs:       curr.eggs,
+                  food:       curr.food,
+                  tucked:     curr.tucked,
+                  // endOfRound stays at its current value (0 or whatever was entered)
+                }
+              : r
+          ),
+        }
+      })
+      return updated
+    })
+    setStep(s => s + 1)
   }
 
-  // Running total shown in the table footer
-  function runningTotal(playerId) {
-    const score = scores[playerId]
-    if (!score) return 0
-    if (isRoundStep) {
-      // Sum rounds 1 through current
-      return score.rounds
-        .slice(0, roundIndex + 1)
-        .reduce((s, r) => s + (parseInt(r.endOfRound) || 0), 0)
-    }
-    return getTotal(score)
+  function handleBack() {
+    setStep(s => s - 1)
   }
 
   function handleDiscard() {
@@ -67,22 +65,22 @@ export default function ScoreEntry({ players, scores, onScoreChange, onEndGame, 
       <div className="score-header" style={{ backgroundImage: `url(${hero.url})` }}>
         <div className="score-header-overlay">
           <h1 className="app-title">Wingspan</h1>
-          <p className="app-subtitle">{stepLabel}</p>
+          <p className="app-subtitle">Round {step + 1} of {NUM_ROUNDS}</p>
         </div>
       </div>
 
       <div className="screen-body">
 
-        {/* Step progress dots */}
+        {/* Progress dots */}
         <div className="step-indicator">
-          {[0, 1, 2, 3, 4].map(s => (
+          {Array.from({ length: NUM_ROUNDS }, (_, i) => (
             <div
-              key={s}
-              className={`step-dot${s === step ? ' active' : ''}${s < step ? ' done' : ''}`}
-              title={s < NUM_ROUNDS ? `Round ${s + 1}` : 'Final Scores'}
+              key={i}
+              className={`step-dot${i === step ? ' active' : ''}${i < step ? ' done' : ''}`}
+              title={`Round ${i + 1}`}
             />
           ))}
-          <span className="step-label">{stepLabel}</span>
+          <span className="step-label">Round {step + 1} of {NUM_ROUNDS}</span>
         </div>
 
         <div className="table-wrap">
@@ -104,12 +102,15 @@ export default function ScoreEntry({ players, scores, onScoreChange, onEndGame, 
               </thead>
 
               <tbody>
-                {isRoundStep ? (
-                  // Round step: one row for the end-of-round goal
-                  <tr>
+                {ROUND_CATEGORIES.map(cat => (
+                  <tr key={cat.key} className={cat.key === 'endOfRound' ? 'highlight-row' : ''}>
                     <td className="cat-cell">
-                      <span className="cat-label">{ROUND_CATEGORY.label}</span>
-                      <span className="cat-desc">{ROUND_CATEGORY.description}</span>
+                      <span className="cat-label">
+                        {cat.key === 'endOfRound'
+                          ? `Round ${step + 1} Goal`
+                          : cat.label}
+                      </span>
+                      <span className="cat-desc">{cat.description}</span>
                     </td>
                     {players.map(p => (
                       <td key={p.id} className="score-cell">
@@ -118,62 +119,26 @@ export default function ScoreEntry({ players, scores, onScoreChange, onEndGame, 
                           inputMode="numeric"
                           min="0"
                           className="score-input"
-                          value={scores[p.id]?.rounds[roundIndex]?.endOfRound ?? 0}
-                          onChange={e => handleRoundInput(p.id, e.target.value)}
+                          value={scores[p.id]?.rounds[step]?.[cat.key] ?? 0}
+                          onChange={e => handleInput(p.id, cat.key, e.target.value)}
                           onFocus={e => e.target.select()}
                         />
                       </td>
                     ))}
                   </tr>
-                ) : (
-                  <>
-                    {/* Final step: show round subtotal (read-only) then final categories */}
-                    <tr className="subtotal-row">
-                      <td className="cat-cell">
-                        <span className="cat-label">Round Goals (all 4)</span>
-                        <span className="cat-desc">Sum of end-of-round goal scores</span>
-                      </td>
-                      {players.map(p => (
-                        <td key={p.id} className="score-cell subtotal-value">
-                          {getRoundsTotal(scores[p.id])}
-                        </td>
-                      ))}
-                    </tr>
-                    {FINAL_CATEGORIES.map(cat => (
-                      <tr key={cat.key}>
-                        <td className="cat-cell">
-                          <span className="cat-label">{cat.label}</span>
-                          <span className="cat-desc">{cat.description}</span>
-                        </td>
-                        {players.map(p => (
-                          <td key={p.id} className="score-cell">
-                            <input
-                              type="number"
-                              inputMode="numeric"
-                              min="0"
-                              className="score-input"
-                              value={scores[p.id]?.[cat.key] ?? 0}
-                              onChange={e => handleFinalInput(p.id, cat.key, e.target.value)}
-                              onFocus={e => e.target.select()}
-                            />
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
-                  </>
-                )}
+                ))}
               </tbody>
 
               <tfoot>
                 <tr className="total-row">
                   <td className="cat-cell">
                     <span className="cat-label total-label">
-                      {isRoundStep ? 'Running Total' : 'Grand Total'}
+                      Running Total
                     </span>
                   </td>
                   {players.map(p => (
                     <td key={p.id} className="score-cell total-value">
-                      {runningTotal(p.id)}
+                      {getRunningTotal(scores[p.id], step)}
                     </td>
                   ))}
                 </tr>
@@ -184,24 +149,19 @@ export default function ScoreEntry({ players, scores, onScoreChange, onEndGame, 
 
         {/* Navigation */}
         <div className="action-stack">
-          {step === NUM_ROUNDS ? (
+          {isFinalRound ? (
             <button className="primary-btn" onClick={onEndGame}>
               End Game &amp; See Results
             </button>
           ) : (
-            <button
-              className="primary-btn"
-              onClick={() => setStep(s => s + 1)}
-            >
-              {step < NUM_ROUNDS - 1
-                ? `Next \u2192 Round ${step + 2}`
-                : 'Next \u2192 Final Scores'}
+            <button className="primary-btn" onClick={handleNext}>
+              Next &rarr; Round {step + 2}
             </button>
           )}
 
           <div className="nav-row">
             {step > 0 && (
-              <button className="secondary-btn" onClick={() => setStep(s => s - 1)}>
+              <button className="secondary-btn" onClick={handleBack}>
                 &larr; Back
               </button>
             )}

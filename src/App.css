@@ -576,16 +576,14 @@ body {
    SUBTOTAL ROW
    ============================================================ */
 
-.subtotal-row {
-  border-top: 2px dashed var(--cream-dark);
-  border-bottom: 2px dashed var(--cream-dark);
+.highlight-row {
+  background: rgba(201, 168, 76, 0.12) !important;
+  border-top: 1px solid var(--gold);
+  border-bottom: 1px solid var(--gold);
 }
 
-.subtotal-value {
-  font-family: 'Lato', sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--brown);
+.highlight-row .cat-cell {
+  background: rgba(201, 168, 76, 0.12) !important;
 }
 
 /* ============================================================
