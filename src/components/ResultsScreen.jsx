@@ -1,33 +1,16 @@
-import { BHL_IMAGES, PLAYER_COLORS, getTotal } from '../constants'
-
-function num(v) { return parseInt(v) || 0 }
+import { FINAL_CATEGORIES, BHL_IMAGES, PLAYER_COLORS, getRoundsTotal, getTotal } from '../constants'
 
 export default function ResultsScreen({ players, scores, onPlayAgain, onNewGame }) {
   const totals = players.map(p => ({ ...p, total: getTotal(scores[p.id]) }))
   const maxTotal = Math.max(...totals.map(p => p.total))
   const isWinner = id => totals.find(p => p.id === id)?.total === maxTotal
 
+  const hero = BHL_IMAGES[3]
+
   const winners = totals.filter(p => p.total === maxTotal)
   const winnerText = winners.length === 1
     ? `${winners[0].name} wins!`
     : `Tie \u2014 ${winners.map(w => w.name).join(' & ')}`
-
-  const hero = BHL_IMAGES[3]
-
-  // Final round (index 3) holds the definitive cumulative values
-  const finalRound = id => scores[id]?.rounds[3] ?? {}
-
-  const rows = [
-    { label: 'Birds Played',    getValue: id => num(finalRound(id).birds) },
-    { label: 'Bonus Cards',     getValue: id => num(finalRound(id).bonusCards) },
-    { label: 'Round 1 Goal',    getValue: id => num(scores[id]?.rounds[0]?.endOfRound) },
-    { label: 'Round 2 Goal',    getValue: id => num(scores[id]?.rounds[1]?.endOfRound) },
-    { label: 'Round 3 Goal',    getValue: id => num(scores[id]?.rounds[2]?.endOfRound) },
-    { label: 'Round 4 Goal',    getValue: id => num(scores[id]?.rounds[3]?.endOfRound), highlight: true },
-    { label: 'Eggs',            getValue: id => num(finalRound(id).eggs) },
-    { label: 'Food on Cards',   getValue: id => num(finalRound(id).food) },
-    { label: 'Tucked Cards',    getValue: id => num(finalRound(id).tucked) },
-  ]
 
   return (
     <div className="screen">
@@ -61,17 +44,50 @@ export default function ResultsScreen({ players, scores, onPlayAgain, onNewGame 
               </thead>
 
               <tbody>
-                {rows.map(row => (
-                  <tr key={row.label} className={row.highlight ? 'highlight-row' : ''}>
+                {/* Per-round goal rows */}
+                {[0, 1, 2, 3].map(i => (
+                  <tr key={`round-${i}`}>
                     <td className="cat-cell">
-                      <span className="cat-label">{row.label}</span>
+                      <span className="cat-label">Round {i + 1} Goal</span>
                     </td>
                     {players.map(p => (
                       <td
                         key={p.id}
                         className={`score-cell${isWinner(p.id) ? ' winner-cell' : ''}`}
                       >
-                        {row.getValue(p.id)}
+                        {scores[p.id]?.rounds[i]?.endOfRound ?? 0}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+
+                {/* Round goals subtotal */}
+                <tr className="subtotal-row">
+                  <td className="cat-cell">
+                    <span className="cat-label">Round Goals Total</span>
+                  </td>
+                  {players.map(p => (
+                    <td
+                      key={p.id}
+                      className={`score-cell subtotal-value${isWinner(p.id) ? ' winner-cell' : ''}`}
+                    >
+                      {getRoundsTotal(scores[p.id])}
+                    </td>
+                  ))}
+                </tr>
+
+                {/* Final scoring categories */}
+                {FINAL_CATEGORIES.map(cat => (
+                  <tr key={cat.key}>
+                    <td className="cat-cell">
+                      <span className="cat-label">{cat.label}</span>
+                    </td>
+                    {players.map(p => (
+                      <td
+                        key={p.id}
+                        className={`score-cell${isWinner(p.id) ? ' winner-cell' : ''}`}
+                      >
+                        {scores[p.id]?.[cat.key] ?? 0}
                       </td>
                     ))}
                   </tr>
@@ -98,8 +114,12 @@ export default function ResultsScreen({ players, scores, onPlayAgain, onNewGame 
         </div>
 
         <div className="results-actions">
-          <button className="primary-btn" onClick={onPlayAgain}>Play Again</button>
-          <button className="secondary-btn" onClick={onNewGame}>New Game</button>
+          <button className="primary-btn" onClick={onPlayAgain}>
+            Play Again
+          </button>
+          <button className="secondary-btn" onClick={onNewGame}>
+            New Game
+          </button>
         </div>
 
         <p className="image-credit">{hero.credit}</p>
