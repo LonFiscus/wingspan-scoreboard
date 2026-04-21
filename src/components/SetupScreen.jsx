@@ -57,7 +57,7 @@ export default function SetupScreen({ initialPlayers, onStart }) {
     <div className="screen">
       <div className="hero" style={{ backgroundImage: `url(${hero.url})` }}>
         <div className="hero-overlay">
-          <h1 className="app-title">Wingspan</h1>
+          <h1 className="app-title">Papa&rsquo;s Plantin&rsquo; a Bird!</h1>
           <p className="app-subtitle">Scoreboard</p>
         </div>
       </div>

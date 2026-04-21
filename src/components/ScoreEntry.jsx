@@ -66,7 +66,7 @@ export default function ScoreEntry({ players, scores, onScoreChange, onEndGame, 
     <div className="screen">
       <div className="score-header" style={{ backgroundImage: `url(${hero.url})` }}>
         <div className="score-header-overlay">
-          <h1 className="app-title">Wingspan</h1>
+          <h1 className="app-title">Papa&rsquo;s Plantin&rsquo; a Bird!</h1>
           <p className="app-subtitle">{stepLabel}</p>
         </div>
       </div>

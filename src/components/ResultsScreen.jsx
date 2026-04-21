@@ -16,7 +16,7 @@ export default function ResultsScreen({ players, scores, onPlayAgain, onNewGame 
     <div className="screen">
       <div className="hero hero-tall" style={{ backgroundImage: `url(${hero.url})` }}>
         <div className="hero-overlay">
-          <h1 className="app-title">Wingspan</h1>
+          <h1 className="app-title">Papa&rsquo;s Plantin&rsquo; a Bird!</h1>
           <p className="winner-announce">{winnerText}</p>
         </div>
       </div>
