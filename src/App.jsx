@@ -102,7 +102,7 @@ export default function App() {
     setHistory([])
   }
 
-  const showNav = screen !== 'setup'
+  const showNav = true
   const navActive = screen === 'stats' ? 'stats'
     : (screen === 'history' || screen === 'detail') ? 'history'
     : 'game'
