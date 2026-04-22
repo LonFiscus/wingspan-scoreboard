@@ -10,9 +10,7 @@ import {
 
 const NUM_ROUNDS = 4
 
-export default function ScoreEntry({ players, scores, onScoreChange, onEndGame, onNewGame }) {
-  // steps 0–3 = round 1–4, step 4 = final scores
-  const [step, setStep] = useState(0)
+export default function ScoreEntry({ players, scores, step, onStepChange, onScoreChange, onEndGame, onNewGame }) {
   const [showConfirm, setShowConfirm] = useState(false)
 
   const isRoundStep = step < NUM_ROUNDS
@@ -191,7 +189,7 @@ export default function ScoreEntry({ players, scores, onScoreChange, onEndGame, 
           ) : (
             <button
               className="primary-btn"
-              onClick={() => setStep(s => s + 1)}
+              onClick={() => onStepChange(step + 1)}
             >
               {step < NUM_ROUNDS - 1
                 ? `Next \u2192 Round ${step + 2}`
@@ -201,7 +199,7 @@ export default function ScoreEntry({ players, scores, onScoreChange, onEndGame, 
 
           <div className="nav-row">
             {step > 0 && (
-              <button className="secondary-btn" onClick={() => setStep(s => s - 1)}>
+              <button className="secondary-btn" onClick={() => onStepChange(step - 1)}>
                 &larr; Back
               </button>
             )}

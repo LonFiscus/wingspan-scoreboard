@@ -1,3 +1,6 @@
+export const GAMES_KEY = 'wingspan_games_v1'
+export const MID_GAME_KEY = 'wingspan_current_game_v1'
+
 // Categories entered per round (end-of-round goal tile)
 export const ROUND_CATEGORY = {
   key: 'endOfRound',

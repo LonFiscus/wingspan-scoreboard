@@ -654,6 +654,201 @@ body {
 }
 
 /* ============================================================
+   APP LAYOUT FOR BOTTOM NAV
+   ============================================================ */
+
+.app-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.has-nav .screen-body {
+  padding-bottom: 80px;
+}
+
+/* ============================================================
+   BOTTOM NAV BAR
+   ============================================================ */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 780px;
+  height: 60px;
+  background: var(--green-dark);
+  border-top: 3px solid var(--gold);
+  display: flex;
+  z-index: 100;
+}
+
+.nav-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 4px;
+  color: rgba(245, 237, 214, 0.6);
+  font-family: 'Lato', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.2s, background 0.2s;
+  border-top: 3px solid transparent;
+  margin-top: -3px;
+}
+
+.nav-tab:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--cream);
+}
+
+.nav-tab.nav-tab-active {
+  color: var(--gold-light);
+  border-top-color: var(--gold-light);
+}
+
+.nav-tab:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   HISTORY SCREEN
+   ============================================================ */
+
+.history-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.history-heading {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.small-btn {
+  padding: 8px 14px !important;
+  font-size: 0.82rem !important;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  border: 1px solid var(--cream-dark);
+  border-radius: var(--radius);
+  padding: 13px 12px 13px 16px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  min-width: 0;
+}
+
+.history-row:hover {
+  box-shadow: 0 2px 12px var(--shadow);
+  border-color: var(--gold);
+}
+
+.history-row-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.history-date {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+
+.history-players {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-winner {
+  font-size: 0.82rem;
+  color: var(--green);
+}
+
+.history-score {
+  color: var(--text-muted);
+}
+
+.row-confirm {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.row-confirm span {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.row-confirm .danger-btn,
+.row-confirm .secondary-btn {
+  padding: 6px 10px !important;
+  font-size: 0.78rem !important;
+  white-space: nowrap;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 40px 20px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   GAME DETAIL
+   ============================================================ */
+
+.detail-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.detail-winner {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--green);
+  text-align: center;
+  padding: 4px 0;
+}
+
+/* ============================================================
    RESPONSIVE
    ============================================================ */
 
