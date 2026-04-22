@@ -849,6 +849,232 @@ body {
 }
 
 /* ============================================================
+   DARK MODE
+   ============================================================ */
+
+html.dark-mode {
+  --cream:      #1b2519;
+  --cream-dark: #283a24;
+  --white:      #1e2c1b;
+  --text:       #f0e8d0;
+  --text-muted: #a89275;
+  --brown:      #c49060;
+  --brown-light: #d4a870;
+  --shadow:     rgba(0, 0, 0, 0.38);
+}
+
+html.dark-mode .confirm-bar {
+  background: #2d1a1a;
+  border-color: #7a4040;
+}
+
+html.dark-mode .score-table tfoot .cat-cell {
+  background: var(--cream) !important;
+}
+
+html.dark-mode .score-table tbody tr:nth-child(odd) .cat-cell {
+  background: var(--white) !important;
+}
+
+html.dark-mode .score-table tbody tr:nth-child(even) .cat-cell {
+  background: var(--cream) !important;
+}
+
+/* ============================================================
+   SCORE POP ANIMATION
+   ============================================================ */
+
+@keyframes score-pop {
+  0%   { transform: scale(1);    color: inherit; }
+  35%  { transform: scale(1.22); color: var(--gold-light); }
+  100% { transform: scale(1);    color: inherit; }
+}
+
+.score-pop {
+  display: inline-block;
+  animation: score-pop 0.45s ease-out;
+}
+
+/* ============================================================
+   STATS SCREEN
+   ============================================================ */
+
+.leaderboard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.leader-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  border: 2px solid var(--cream-dark);
+  background: var(--white);
+}
+
+.leader-rank-1 {
+  border-color: var(--gold);
+  background: linear-gradient(135deg, var(--white) 0%, rgba(201, 168, 76, 0.08) 100%);
+}
+
+.leader-rank-2 {
+  border-color: var(--cream-dark);
+}
+
+.leader-rank-3 {
+  border-color: var(--cream-dark);
+}
+
+.leader-pos {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gold);
+  min-width: 28px;
+}
+
+.leader-rank-2 .leader-pos,
+.leader-rank-3 .leader-pos {
+  color: var(--text-muted);
+}
+
+.leader-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+  flex: 1;
+}
+
+.leader-wins {
+  font-size: 0.82rem;
+  color: var(--green);
+  font-weight: 400;
+}
+
+.leader-rate {
+  color: var(--text-muted);
+}
+
+.stats-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: -10px;
+}
+
+.stats-table .stat-col {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.stats-table .stat-col:hover {
+  background: var(--green-light) !important;
+}
+
+.stats-table .sort-active {
+  background: var(--green-light) !important;
+  color: var(--cream) !important;
+}
+
+/* ============================================================
+   RESULTS — COPY & PRINT ACTIONS
+   ============================================================ */
+
+.copy-btn-success {
+  background: var(--green-light) !important;
+  color: var(--white) !important;
+  border-color: var(--green-light) !important;
+}
+
+/* ============================================================
+   NAV THEME TOGGLE
+   ============================================================ */
+
+.nav-theme-btn {
+  width: 46px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  color: rgba(245, 237, 214, 0.55);
+  font-size: 1.1rem;
+  transition: color 0.2s;
+}
+
+.nav-theme-btn:hover {
+  color: var(--gold-light);
+}
+
+/* ============================================================
+   PRINT LAYOUT
+   ============================================================ */
+
+@media print {
+  .bottom-nav,
+  .results-actions,
+  .action-stack,
+  .step-indicator,
+  .image-credit,
+  .detail-toolbar,
+  .print-hide {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .app {
+    box-shadow: none !important;
+    max-width: 100% !important;
+  }
+
+  .hero,
+  .hero-tall,
+  .score-header {
+    height: 60px !important;
+    background-image: none !important;
+    background: var(--green-dark) !important;
+  }
+
+  .hero-overlay,
+  .score-header-overlay {
+    background: none !important;
+  }
+
+  .app-title {
+    font-size: 1.4rem !important;
+    color: white !important;
+  }
+
+  .winner-announce,
+  .app-subtitle {
+    color: var(--gold-light) !important;
+  }
+
+  .screen-body {
+    padding: 16px !important;
+  }
+
+  .score-input {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    width: auto !important;
+  }
+}
+
+/* ============================================================
    RESPONSIVE
    ============================================================ */
 

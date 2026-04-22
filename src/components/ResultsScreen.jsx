@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { FINAL_CATEGORIES, BHL_IMAGES, PLAYER_COLORS, getRoundsTotal, getTotal } from '../constants'
 
 export default function ResultsScreen({ players, scores, onPlayAgain, onNewGame }) {
+  const [copied, setCopied] = useState(false)
   const totals = players.map(p => ({ ...p, total: getTotal(scores[p.id]) }))
   const maxTotal = Math.max(...totals.map(p => p.total))
   const isWinner = id => totals.find(p => p.id === id)?.total === maxTotal
@@ -11,6 +13,27 @@ export default function ResultsScreen({ players, scores, onPlayAgain, onNewGame 
   const winnerText = winners.length === 1
     ? `${winners[0].name} wins!`
     : `Tie \u2014 ${winners.map(w => w.name).join(' & ')}`
+
+  function buildCopyText() {
+    const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    const lines = [`Papa's Plantin' a Bird! \u2014 ${date}`, '', winnerText, '']
+    totals.slice().sort((a, b) => b.total - a.total).forEach(p => {
+      const s = scores[p.id]
+      lines.push(`${p.name} \u2014 ${p.total} pts`)
+      lines.push(`  Round Goals: ${getRoundsTotal(s)}`)
+      FINAL_CATEGORIES.forEach(cat => {
+        lines.push(`  ${cat.label}: ${s?.[cat.key] ?? 0}`)
+      })
+      lines.push('')
+    })
+    return lines.join('\n').trim()
+  }
+
+  function handleCopy() {
+    navigator.clipboard.writeText(buildCopyText())
+      .then(() => { setCopied(true); setTimeout(() => setCopied(false), 2000) })
+      .catch(() => {})
+  }
 
   return (
     <div className="screen">
@@ -119,6 +142,15 @@ export default function ResultsScreen({ players, scores, onPlayAgain, onNewGame 
           </button>
           <button className="secondary-btn" onClick={onNewGame}>
             New Game
+          </button>
+          <button
+            className={`secondary-btn${copied ? ' copy-btn-success' : ''}`}
+            onClick={handleCopy}
+          >
+            {copied ? 'Copied!' : 'Copy Results'}
+          </button>
+          <button className="secondary-btn print-hide" onClick={() => window.print()}>
+            Print / PDF
           </button>
         </div>
 

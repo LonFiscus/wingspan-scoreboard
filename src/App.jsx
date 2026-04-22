@@ -5,6 +5,7 @@ import ResultsScreen from './components/ResultsScreen'
 import NavBar from './components/NavBar'
 import HistoryScreen from './components/HistoryScreen'
 import GameDetail from './components/GameDetail'
+import StatsScreen from './components/StatsScreen'
 import { makeEmptyScore, getTotal, GAMES_KEY, MID_GAME_KEY } from './constants'
 
 let _saved = null
@@ -28,6 +29,14 @@ export default function App() {
   const [gameComplete, setGameComplete] = useState(false)
   const [history, setHistory] = useState(loadHistory)
   const [selectedGameId, setSelectedGameId] = useState(null)
+  const [darkMode, setDarkMode] = useState(() => {
+    try { return localStorage.getItem('wingspan_theme_v1') === 'dark' } catch { return false }
+  })
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark-mode', darkMode)
+    try { localStorage.setItem('wingspan_theme_v1', darkMode ? 'dark' : 'light') } catch {}
+  }, [darkMode])
 
   useEffect(() => {
     if (screen === 'scoring') {
@@ -94,7 +103,9 @@ export default function App() {
   }
 
   const showNav = screen !== 'setup'
-  const navActive = (screen === 'history' || screen === 'detail') ? 'history' : 'game'
+  const navActive = screen === 'stats' ? 'stats'
+    : (screen === 'history' || screen === 'detail') ? 'history'
+    : 'game'
   const hasGame = players.length > 0
 
   function handleNavGame() {
@@ -142,13 +153,19 @@ export default function App() {
             onDeleteGame={id => { handleDeleteGame(id); setScreen('history') }}
           />
         )}
+        {screen === 'stats' && (
+          <StatsScreen history={history} />
+        )}
       </div>
       {showNav && (
         <NavBar
           activeTab={navActive}
           hasGame={hasGame}
+          darkMode={darkMode}
           onGameTab={handleNavGame}
           onHistoryTab={() => setScreen('history')}
+          onStatsTab={() => setScreen('stats')}
+          onToggleTheme={() => setDarkMode(d => !d)}
         />
       )}
     </div>

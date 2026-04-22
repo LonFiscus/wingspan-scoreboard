@@ -1,4 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+
+function PoppingNumber({ value }) {
+  const [pop, setPop] = useState(false)
+  const first = useRef(true)
+  const prev = useRef(value)
+
+  useEffect(() => {
+    if (first.current) { first.current = false; return }
+    if (prev.current !== value) {
+      prev.current = value
+      setPop(true)
+      const id = setTimeout(() => setPop(false), 450)
+      return () => clearTimeout(id)
+    }
+  }, [value])
+
+  return <span className={pop ? 'score-pop' : ''}>{value}</span>
+}
 import {
   ROUND_CATEGORY,
   FINAL_CATEGORIES,
@@ -171,7 +189,7 @@ export default function ScoreEntry({ players, scores, step, onStepChange, onScor
                   </td>
                   {players.map(p => (
                     <td key={p.id} className="score-cell total-value">
-                      {runningTotal(p.id)}
+                      <PoppingNumber value={runningTotal(p.id)} />
                     </td>
                   ))}
                 </tr>
